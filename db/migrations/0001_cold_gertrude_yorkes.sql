@@ -1,0 +1,1 @@
+ALTER TABLE "pre_launch_signups" ADD COLUMN "locale" varchar(10) DEFAULT 'en' NOT NULL;
