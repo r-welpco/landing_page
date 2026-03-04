@@ -41,7 +41,8 @@
       "commentOptional": "(optional)",
       "commentPlaceholder": "Any feedback or questions?",
       "errorGeneric": "Something went wrong.",
-      "errorNetwork": "Network error. Please try again."
+      "errorNetwork": "Network error. Please try again.",
+      "errorNoSelection": "Please select at least one option (Customer or Welper)."
     }
   },
   "modal": {

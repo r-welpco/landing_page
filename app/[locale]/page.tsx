@@ -206,6 +206,11 @@ export default function PreLaunchPage() {
   async function handleSubmit(e: React.FormEvent) {
     e.preventDefault();
     setErrorMessage("");
+    if (!interestedCustomer && !interestedWelper) {
+      setStatus("error");
+      setErrorMessage(t("form.errorNoSelection"));
+      return;
+    }
     setStatus("loading");
     submitIdRef.current += 1;
     const thisSubmitId = submitIdRef.current;
@@ -213,7 +218,7 @@ export default function PreLaunchPage() {
       const res = await fetch("/api/subscribe", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({ email, segment, locale, interestedCustomer, interestedWelper, comment: comment.trim() || undefined }),
+        body: JSON.stringify({ email, locale, interestedCustomer, interestedWelper, comment: comment.trim() || undefined }),
       });
       const data = (await res.json().catch(() => ({}))) as {
         error?: string;

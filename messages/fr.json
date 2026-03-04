@@ -41,7 +41,8 @@
       "commentOptional": "(facultatif)",
       "commentPlaceholder": "Des remarques ou questions ?",
       "errorGeneric": "Une erreur s’est produite.",
-      "errorNetwork": "Erreur réseau. Veuillez réessayer."
+      "errorNetwork": "Erreur réseau. Veuillez réessayer.",
+      "errorNoSelection": "Veuillez sélectionner au moins une option (Client ou Welper)."
     }
   },
   "modal": {

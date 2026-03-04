@@ -28,10 +28,10 @@ const footerCopy: Record<EmailLocale, { questions: string; rights: string }> = {
   },
 };
 
-function wrapEmail(content: string, locale: EmailLocale): string {
+function wrapEmail(content: string, segment: Segment, locale: EmailLocale): string {
   const logoHtml = getLogoHtml();
   const footer = footerCopy[locale];
-  const title = locale === "fr" ? "Qu\u2019est-ce que Welpco\u00a0?" : "What is Welpco?";
+  const title = getEmailSubject(segment, locale);
   return `
 <!DOCTYPE html>
 <html lang="${locale}">
@@ -195,14 +195,14 @@ function getWelperContentFr(): string {
 export function getWhatIsWelpcoHtml(segment: Segment, locale: EmailLocale = "fr"): string {
   const isFr = locale === "fr";
   if (segment === "customer") {
-    return wrapEmail(isFr ? getCustomerContentFr() : getCustomerContentEn(), locale);
+    return wrapEmail(isFr ? getCustomerContentFr() : getCustomerContentEn(), segment, locale);
   }
-  return wrapEmail(isFr ? getWelperContentFr() : getWelperContentEn(), locale);
+  return wrapEmail(isFr ? getWelperContentFr() : getWelperContentEn(), segment, locale);
 }
 
-export function getEmailSubject(locale: EmailLocale = "fr"): string {
+export function getEmailSubject(segment: Segment, locale: EmailLocale = "fr"): string {
+  if (segment === "welper") {
+    return locale === "fr" ? "Qu\u2019est-ce qu\u2019un Welper\u00a0?" : "What is a Welper?";
+  }
   return locale === "fr" ? "Qu\u2019est-ce que Welpco\u00a0?" : "What is Welpco?";
 }
-
-/** @deprecated Use getEmailSubject(locale) instead */
-export const EMAIL_SUBJECT = "What is Welpco?";

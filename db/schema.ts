@@ -10,7 +10,7 @@ import {
 export const preLaunchSignups = pgTable("pre_launch_signups", {
   id: serial("id").primaryKey(),
   email: varchar("email", { length: 255 }).notNull(),
-  segment: varchar("segment", { length: 20 }).notNull(), // 'customer' | 'welper'
+  segment: varchar("segment", { length: 20 }).notNull(), // 'customer' | 'welper' | 'both'
   locale: varchar("locale", { length: 10 }).notNull().default("fr"),
   interestedCustomer: boolean("interested_customer").notNull().default(false),
   interestedWelper: boolean("interested_welper").notNull().default(false),

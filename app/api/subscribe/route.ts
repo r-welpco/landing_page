@@ -1,18 +1,21 @@
 import { NextResponse } from "next/server";
 import nodemailer from "nodemailer";
 import { z } from "zod";
-import { getWhatIsWelpcoHtml, getEmailSubject, type EmailLocale } from "@/lib/email-templates";
+import { getWhatIsWelpcoHtml, getEmailSubject, type EmailLocale, type Segment } from "@/lib/email-templates";
 import { getDb } from "@/db";
 import { preLaunchSignups } from "@/db/schema";
 
-const SubscribeSchema = z.object({
-  email: z.string().email("Invalid email address"),
-  segment: z.enum(["customer", "welper"]),
-  locale: z.enum(["en", "fr"]).optional(),
-  interestedCustomer: z.boolean().optional(),
-  interestedWelper: z.boolean().optional(),
-  comment: z.string().max(2000).optional(),
-});
+const SubscribeSchema = z
+  .object({
+    email: z.string().email("Invalid email address"),
+    locale: z.enum(["en", "fr"]).optional(),
+    interestedCustomer: z.boolean().optional(),
+    interestedWelper: z.boolean().optional(),
+    comment: z.string().max(2000).optional(),
+  })
+  .refine((d) => d.interestedCustomer || d.interestedWelper, {
+    message: "Please select at least one option (Customer or Welper)",
+  });
 
 export async function POST(request: Request) {
   let body: unknown;
@@ -31,14 +34,18 @@ export async function POST(request: Request) {
     return NextResponse.json({ error: message }, { status: 400 });
   }
 
-  const { email, segment, locale, interestedCustomer, interestedWelper, comment } = parsed.data;
+  const { email, locale, interestedCustomer, interestedWelper, comment } = parsed.data;
   const emailLocale: EmailLocale = locale ?? "fr";
   const interestedCustomerVal = interestedCustomer ?? false;
   const interestedWelperVal = interestedWelper ?? false;
   const commentVal = comment ?? "";
 
-  // Start independent work early (async-api-routes): build email and transporter before awaiting DB
-  const html = getWhatIsWelpcoHtml(segment, emailLocale);
+  const segment: string = interestedCustomerVal && interestedWelperVal
+    ? "both"
+    : interestedCustomerVal
+      ? "customer"
+      : "welper";
+
   const smtpHost = process.env.SMTP_HOST ?? "localhost";
   const smtpPort = Number(process.env.SMTP_PORT) || 465;
   const smtpFrom = process.env.SMTP_FROM ?? "noreply@welpco.com";
@@ -71,14 +78,23 @@ export async function POST(request: Request) {
     }
   }
 
+  const segmentsToEmail: Segment[] = [];
+  if (interestedCustomerVal) segmentsToEmail.push("customer");
+  if (interestedWelperVal) segmentsToEmail.push("welper");
+
   try {
-    await transporter.sendMail({
-      from: smtpFrom,
-      to: email,
-      subject: getEmailSubject(emailLocale),
-      html,
-      text: html.replace(/<[^>]*>/g, ""),
-    });
+    await Promise.all(
+      segmentsToEmail.map((seg) => {
+        const html = getWhatIsWelpcoHtml(seg, emailLocale);
+        return transporter.sendMail({
+          from: smtpFrom,
+          to: email,
+          subject: getEmailSubject(seg, emailLocale),
+          html,
+          text: html.replace(/<[^>]*>/g, ""),
+        });
+      })
+    );
   } catch (err) {
     console.error("[pre-launch subscribe] send failed", err);
     return NextResponse.json(
