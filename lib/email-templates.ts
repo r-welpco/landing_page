@@ -12,18 +12,18 @@ function getLogoHtml(): string {
   const baseUrl = (process.env.PUBLIC_APP_URL || "").replace(/\/$/, "");
   const logoUrl = baseUrl ? `${baseUrl}/logos/logo-green.png` : "";
   if (logoUrl) {
-    return `<img src="${logoUrl}" alt="Welpco" width="140" height="40" style="display:block; max-width:140px; height:auto;" />`;
+    return `<img src="${logoUrl}" alt="Welpco" width="140" border="0" style="display:block; max-width:140px; height:auto; outline:none; text-decoration:none;" />`;
   }
   return `<span style="font-size:1.5rem; font-weight:700; color:${brandGreen};">Welpco</span>`;
 }
 
 const footerCopy: Record<EmailLocale, { questions: string; rights: string }> = {
   en: {
-    questions: "Questions? Reply to this email or contact",
+    questions: "Questions? Contact us at",
     rights: "&copy; Welpco. All rights reserved.",
   },
   fr: {
-    questions: "Des questions\u00a0? R\u00e9pondez \u00e0 cet e-mail ou contactez",
+    questions: "Des questions\u00a0? Contactez-nous \u00e0",
     rights: "&copy; Welpco. Tous droits r\u00e9serv\u00e9s.",
   },
 };
