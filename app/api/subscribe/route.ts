@@ -32,7 +32,7 @@ export async function POST(request: Request) {
   }
 
   const { email, segment, locale, interestedCustomer, interestedWelper, comment } = parsed.data;
-  const emailLocale: EmailLocale = locale ?? "en";
+  const emailLocale: EmailLocale = locale ?? "fr";
   const interestedCustomerVal = interestedCustomer ?? false;
   const interestedWelperVal = interestedWelper ?? false;
   const commentVal = comment ?? "";

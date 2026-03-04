@@ -27,7 +27,7 @@ export default function RootLayout({
   children: React.ReactNode;
 }>) {
   return (
-    <html lang="en" className={`${instrumentSerif.variable} ${dmSans.variable}`} suppressHydrationWarning>
+    <html lang="fr" className={`${instrumentSerif.variable} ${dmSans.variable}`} suppressHydrationWarning>
       <body className="antialiased" style={{ fontFamily: "var(--prelaunch-font-body)" }}>
         {children}
       </body>

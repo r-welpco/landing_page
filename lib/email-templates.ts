@@ -192,7 +192,7 @@ function getWelperContentFr(): string {
 <p style="${pStyle}">Cordialement,<br><strong>L\u2019\u00e9quipe Welpco</strong></p>`;
 }
 
-export function getWhatIsWelpcoHtml(segment: Segment, locale: EmailLocale = "en"): string {
+export function getWhatIsWelpcoHtml(segment: Segment, locale: EmailLocale = "fr"): string {
   const isFr = locale === "fr";
   if (segment === "customer") {
     return wrapEmail(isFr ? getCustomerContentFr() : getCustomerContentEn(), locale);
@@ -200,7 +200,7 @@ export function getWhatIsWelpcoHtml(segment: Segment, locale: EmailLocale = "en"
   return wrapEmail(isFr ? getWelperContentFr() : getWelperContentEn(), locale);
 }
 
-export function getEmailSubject(locale: EmailLocale = "en"): string {
+export function getEmailSubject(locale: EmailLocale = "fr"): string {
   return locale === "fr" ? "Qu\u2019est-ce que Welpco\u00a0?" : "What is Welpco?";
 }
 
