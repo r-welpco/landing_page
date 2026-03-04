@@ -40,13 +40,15 @@ export async function POST(request: Request) {
   // Start independent work early (async-api-routes): build email and transporter before awaiting DB
   const html = getWhatIsWelpcoHtml(segment, emailLocale);
   const smtpHost = process.env.SMTP_HOST ?? "localhost";
-  const smtpPort = Number(process.env.SMTP_PORT) || 1025;
+  const smtpPort = Number(process.env.SMTP_PORT) || 465;
   const smtpFrom = process.env.SMTP_FROM ?? "noreply@welpco.com";
+  const smtpUser = process.env.SMTP_USER;
+  const smtpPass = process.env.SMTP_PASS;
   const transporter = nodemailer.createTransport({
     host: smtpHost,
     port: smtpPort,
-    secure: false,
-    auth: undefined,
+    secure: smtpPort === 465,
+    auth: smtpUser && smtpPass ? { user: smtpUser, pass: smtpPass } : undefined,
   });
 
   const db = getDb();
