@@ -106,6 +106,7 @@ export default function PreLaunchPage() {
     "idle"
   );
   const [errorMessage, setErrorMessage] = useState("");
+  const [showSelectionError, setShowSelectionError] = useState(false);
   const submitIdRef = useRef(0);
   const isMountedRef = useRef(true);
 
@@ -207,8 +208,10 @@ export default function PreLaunchPage() {
     e.preventDefault();
     setErrorMessage("");
     if (!interestedCustomer && !interestedWelper) {
+      setShowSelectionError(true);
       return;
     }
+    setShowSelectionError(false);
     setStatus("loading");
     submitIdRef.current += 1;
     const thisSubmitId = submitIdRef.current;
@@ -596,13 +599,26 @@ export default function PreLaunchPage() {
             gap="0.75rem"
             style={{ marginBottom: "0.75rem" }}
           >
+            <Text size="2" style={{ color: "var(--prelaunch-text-muted)", display: "block" }}>
+              {t("form.errorNoSelection")}
+            </Text>
+          </Flex>
+
+          <Flex
+            align="center"
+            gap="0.75rem"
+            style={{ marginBottom: "0.75rem" }}
+          >
             <button
               id="interested-customer-switch"
               type="button"
               role="switch"
               aria-checked={interestedCustomer}
               aria-label={t("form.interestedCustomerAria")}
-              onClick={() => setInterestedCustomer((v) => !v)}
+              onClick={() => {
+                setInterestedCustomer((v) => !v);
+                setShowSelectionError(false);
+              }}
               disabled={status === "loading"}
               style={{
                 width: 44,
@@ -654,7 +670,10 @@ export default function PreLaunchPage() {
               role="switch"
               aria-checked={interestedWelper}
               aria-label={t("form.interestedWelperAria")}
-              onClick={() => setInterestedWelper((v) => !v)}
+              onClick={() => {
+                setInterestedWelper((v) => !v);
+                setShowSelectionError(false);
+              }}
               disabled={status === "loading"}
               style={{
                 width: 44,
@@ -695,7 +714,7 @@ export default function PreLaunchPage() {
             </label>
           </Flex>
 
-          {!interestedCustomer && !interestedWelper ? (
+          {showSelectionError && !interestedCustomer && !interestedWelper ? (
             <Text size="2" style={{ color: "#f87171", marginBottom: "1rem", display: "block" }}>
               {t("form.errorNoSelection")}
             </Text>
