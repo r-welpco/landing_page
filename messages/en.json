@@ -42,7 +42,12 @@
       "commentPlaceholder": "Any feedback or questions?",
       "errorGeneric": "Something went wrong.",
       "errorNetwork": "Network error. Please try again.",
-      "errorNoSelection": "Please select at least one option (Customer or Welper)."
+      "errorNoSelection": "Please select at least one option (Customer or Welper).",
+      "successMessage": "Thanks! Check your inbox for a confirmation and more about Welpco.",
+      "successTitle": "You're on the list!",
+      "successInline": "You're in! We'll be in touch.",
+      "successDone": "Done",
+      "successDialogAria": "Subscription successful"
     }
   },
   "modal": {

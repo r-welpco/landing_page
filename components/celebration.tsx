@@ -101,13 +101,21 @@ function Sparkles() {
 export function Celebration({
   style,
   onDismiss,
+  message = "Thanks! Check your inbox for a confirmation and more about Welpco.",
+  title = "You're on the list!",
+  inlineTitle = "You're in! We'll be in touch.",
+  doneLabel = "Done",
+  dialogAriaLabel = "Subscription successful",
 }: {
   style: CelebrationStyle;
   onDismiss?: () => void;
+  message?: string;
+  title?: string;
+  inlineTitle?: string;
+  doneLabel?: string;
+  dialogAriaLabel?: string;
 }) {
   // Success message and celebration stay visible (no auto-hide)
-
-  const message = "Thanks! Check your inbox for a confirmation and more about Welpco.";
 
   if (style === "simple") {
     return (
@@ -168,7 +176,7 @@ export function Celebration({
           >
             <span style={{ fontSize: "1.5rem" }}>🎉</span>
             <Text size="3" style={{ fontWeight: "bold", color: "var(--prelaunch-accent)" }}>
-              You're on the list!
+              {title}
             </Text>
           </Box>
           <Text as="p" size="2" style={{ color: "var(--prelaunch-text)", margin: 0 }}>
@@ -195,7 +203,7 @@ export function Celebration({
           }}
         >
           <Text as="p" size="2" style={{ color: "var(--prelaunch-accent)", marginBottom: "0.25rem" }}>
-            ✨ You're in! We'll be in touch.
+            ✨ {inlineTitle}
           </Text>
           <Text as="p" size="2" style={{ color: "var(--prelaunch-text-muted)", margin: 0 }}>
             {message}
@@ -221,7 +229,7 @@ export function Celebration({
         }}
         role="dialog"
         aria-live="polite"
-        aria-label="Subscription successful"
+        aria-label={dialogAriaLabel}
       >
         <ConfettiPieces />
         <Box
@@ -264,7 +272,7 @@ export function Celebration({
               marginBottom: "0.5rem",
             }}
           >
-            You're on the list!
+            {title}
           </Text>
           <Text as="p" size="2" style={{ color: "var(--prelaunch-text-muted)", lineHeight: 1.6 }}>
             {message}
@@ -284,7 +292,7 @@ export function Celebration({
               cursor: "pointer",
             }}
           >
-            Done
+            {doneLabel}
           </button>
         </Box>
       </Box>

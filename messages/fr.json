@@ -42,7 +42,12 @@
       "commentPlaceholder": "Des remarques ou questions ?",
       "errorGeneric": "Une erreur s’est produite.",
       "errorNetwork": "Erreur réseau. Veuillez réessayer.",
-      "errorNoSelection": "Veuillez sélectionner au moins une option (Client ou Welper)."
+      "errorNoSelection": "Veuillez sélectionner au moins une option (Client ou Welper).",
+      "successMessage": "Merci ! Vérifiez votre boîte de réception pour une confirmation et plus d'informations sur Welpco.",
+      "successTitle": "Vous êtes sur la liste !",
+      "successInline": "C'est bon ! Nous vous contacterons bientôt.",
+      "successDone": "Terminé",
+      "successDialogAria": "Inscription réussie"
     }
   },
   "modal": {

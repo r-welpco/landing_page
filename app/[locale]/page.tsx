@@ -207,8 +207,6 @@ export default function PreLaunchPage() {
     e.preventDefault();
     setErrorMessage("");
     if (!interestedCustomer && !interestedWelper) {
-      setStatus("error");
-      setErrorMessage(t("form.errorNoSelection"));
       return;
     }
     setStatus("loading");
@@ -594,67 +592,6 @@ export default function PreLaunchPage() {
           className="animate-fade-in-up"
         >
           <Flex
-            wrap="wrap"
-            style={{
-              gap: "1.25rem",
-              alignItems: "flex-end",
-              marginBottom: "0.75rem",
-            }}
-          >
-            <Box style={{ flex: "1 1 220px", minWidth: 0 }}>
-              <label
-                htmlFor="email"
-                style={{
-                  display: "block",
-                  fontSize: "0.875rem",
-                  color: "var(--prelaunch-text-muted)",
-                  marginBottom: "0.35rem",
-                }}
-              >
-                {t("form.emailLabel")}
-              </label>
-              <input
-                id="email"
-                type="email"
-                required
-                value={email}
-                onChange={(e) => setEmail(e.target.value)}
-                placeholder={t("form.emailPlaceholder")}
-                disabled={status === "loading"}
-                style={{
-                  width: "100%",
-                  padding: "0.75rem 1rem",
-                  borderRadius: 8,
-                  border: "1px solid var(--prelaunch-input-border)",
-                  background: "var(--prelaunch-input-bg)",
-                  color: "var(--prelaunch-text)",
-                  fontFamily: "var(--prelaunch-font-body)",
-                  fontSize: "1rem",
-                }}
-              />
-            </Box>
-            <Button
-              type="submit"
-              disabled={status === "loading"}
-              style={{
-                alignSelf: "flex-end",
-                padding: "0.75rem 1.5rem",
-                borderRadius: 8,
-                background: "var(--prelaunch-accent)",
-                color: "var(--prelaunch-bg)",
-                border: "none",
-                fontFamily: "var(--prelaunch-font-body)",
-                fontSize: "1rem",
-                fontWeight: 600,
-                cursor: status === "loading" ? "not-allowed" : "pointer",
-                opacity: status === "loading" ? 0.8 : 1,
-              }}
-            >
-              {status === "loading" ? t("form.submitting") : t("form.submit")}
-            </Button>
-          </Flex>
-
-          <Flex
             align="center"
             gap="0.75rem"
             style={{ marginBottom: "0.75rem" }}
@@ -758,6 +695,73 @@ export default function PreLaunchPage() {
             </label>
           </Flex>
 
+          {!interestedCustomer && !interestedWelper ? (
+            <Text size="2" style={{ color: "#f87171", marginBottom: "1rem", display: "block" }}>
+              {t("form.errorNoSelection")}
+            </Text>
+          ) : null}
+
+          <Flex
+            wrap="wrap"
+            style={{
+              gap: "1.25rem",
+              alignItems: "flex-end",
+              marginBottom: "0.75rem",
+            }}
+          >
+            <Box style={{ flex: "1 1 220px", minWidth: 0 }}>
+              <label
+                htmlFor="email"
+                style={{
+                  display: "block",
+                  fontSize: "0.875rem",
+                  color: "var(--prelaunch-text-muted)",
+                  marginBottom: "0.35rem",
+                }}
+              >
+                {t("form.emailLabel")}
+              </label>
+              <input
+                id="email"
+                type="email"
+                required
+                value={email}
+                onChange={(e) => setEmail(e.target.value)}
+                placeholder={t("form.emailPlaceholder")}
+                disabled={status === "loading"}
+                style={{
+                  width: "100%",
+                  padding: "0.75rem 1rem",
+                  borderRadius: 8,
+                  border: "1px solid var(--prelaunch-input-border)",
+                  background: "var(--prelaunch-input-bg)",
+                  color: "var(--prelaunch-text)",
+                  fontFamily: "var(--prelaunch-font-body)",
+                  fontSize: "1rem",
+                }}
+              />
+            </Box>
+            <Button
+              type="submit"
+              disabled={status === "loading"}
+              style={{
+                alignSelf: "flex-end",
+                padding: "0.75rem 1.5rem",
+                borderRadius: 8,
+                background: "var(--prelaunch-accent)",
+                color: "var(--prelaunch-bg)",
+                border: "none",
+                fontFamily: "var(--prelaunch-font-body)",
+                fontSize: "1rem",
+                fontWeight: 600,
+                cursor: status === "loading" ? "not-allowed" : "pointer",
+                opacity: status === "loading" ? 0.8 : 1,
+              }}
+            >
+              {status === "loading" ? t("form.submitting") : t("form.submit")}
+            </Button>
+          </Flex>
+
           <Box style={{ marginBottom: "1rem" }}>
             <label
               htmlFor="comment"
@@ -797,12 +801,12 @@ export default function PreLaunchPage() {
             <Celebration
               style={celebrationStyle}
               onDismiss={() => setCelebrationVisible(false)}
+              message={t("form.successMessage")}
+              title={t("form.successTitle")}
+              inlineTitle={t("form.successInline")}
+              doneLabel={t("form.successDone")}
+              dialogAriaLabel={t("form.successDialogAria")}
             />
-          ) : null}
-          {status === "error" && errorMessage ? (
-            <Text size="2" style={{ color: "#f87171" }}>
-              {errorMessage}
-            </Text>
           ) : null}
         </form>
         </Box>
