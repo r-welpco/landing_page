@@ -17,8 +17,8 @@ export default async function LocaleLayout({
   params: Promise<{ locale: string }>;
 }>) {
   const { locale } = await params;
-  setRequestLocale(locale);
   const effectiveLocale = routing.locales.includes(locale as "en" | "fr") ? locale : routing.defaultLocale;
+  setRequestLocale(effectiveLocale);
   const messages = (await import(`@/messages/${effectiveLocale}.json`)).default;
   return (
     <NextIntlClientProvider locale={effectiveLocale} messages={messages}>
