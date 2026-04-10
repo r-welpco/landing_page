@@ -1,5 +1,6 @@
 import type { Metadata } from "next";
 import { Instrument_Serif, DM_Sans } from "next/font/google";
+import { MetaPixel } from "@/components/meta-pixel";
 import "./globals.css";
 
 const instrumentSerif = Instrument_Serif({
@@ -23,6 +24,8 @@ const metadataOrigin =
       ? `https://${process.env.VERCEL_URL}`
       : "http://localhost:3000";
 const metadataBase = new URL(metadataOrigin);
+
+const metaPixelId = process.env.NEXT_PUBLIC_META_PIXEL_ID?.trim();
 
 const title = "Welpco — Coming Soon";
 const description =
@@ -59,6 +62,7 @@ export default function RootLayout({
   return (
     <html lang="fr" className={`${instrumentSerif.variable} ${dmSans.variable}`} suppressHydrationWarning>
       <body className="antialiased" style={{ fontFamily: "var(--prelaunch-font-body)" }}>
+        {metaPixelId ? <MetaPixel pixelId={metaPixelId} /> : null}
         {children}
       </body>
     </html>
