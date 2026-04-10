@@ -15,10 +15,40 @@ const dmSans = DM_Sans({
   display: "swap",
 });
 
+const publicAppUrl = process.env.PUBLIC_APP_URL?.trim();
+const metadataOrigin =
+  publicAppUrl && publicAppUrl.length > 0
+    ? publicAppUrl.replace(/\/$/, "")
+    : process.env.VERCEL_URL
+      ? `https://${process.env.VERCEL_URL}`
+      : "http://localhost:3000";
+const metadataBase = new URL(metadataOrigin);
+
+const title = "Welpco — Coming Soon";
+const description =
+  "Connect with trusted service providers in your community. Get notified when we launch.";
+
 export const metadata: Metadata = {
-  title: "Welpco — Coming Soon",
-  description:
-    "Connect with trusted service providers in your community. Get notified when we launch.",
+  metadataBase,
+  title,
+  description,
+  openGraph: {
+    title,
+    description,
+    type: "website",
+    images: [
+      {
+        url: "/og-img.jpg",
+        alt: "WELPCO — trusted home services and community providers",
+      },
+    ],
+  },
+  twitter: {
+    card: "summary_large_image",
+    title,
+    description,
+    images: ["/og-img.jpg"],
+  },
 };
 
 export default function RootLayout({
